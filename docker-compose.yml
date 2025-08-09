@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -19,7 +19,7 @@ services:
       retries: 3
 
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: travel-app-backend
@@ -38,21 +38,6 @@ services:
     volumes:
       - ./backend:/app
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: travel-app-frontend
-    ports:
-      - "5173:5173"
-    environment:
-      - VITE_API_URL=http://localhost:8000
-      - VITE_APP_NAME=Travel App
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: pnpm dev --host 0.0.0.0 --port 5173
 
 volumes:
   postgres_data:
